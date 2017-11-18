@@ -20,4 +20,4 @@ doctest = false
 mocktopus_macros = {path = "macros"} #"0.1.1"
 
 [workspace]
-members = ["macros"]
+members = ["cargo", "macros", "mtest-test"]
