@@ -1,14 +1,16 @@
 extern crate cargo;
 extern crate quote;
 extern crate syn;
+extern crate toml;
 
-use cargo::core::Workspace;
+use cargo::core::{Dependency, Manifest, Package, Summary, Workspace};
 use cargo::util::config::Config;
 use cargo::util::important_paths;
 use quote::{Tokens, ToTokens};
 use std::fs::OpenOptions;
-use std::io::{Read, Seek, SeekFrom, Write};
+use std::io::{Read, Seek, SeekFrom};
 use std::path::Path;
+use std::rc::Rc;
 use syn::{Crate, ItemKind};
 
 fn main() {
@@ -17,9 +19,23 @@ fn main() {
     let workspace = Workspace::new(&manifest_path, &config).unwrap();
     let package = workspace.current().unwrap();
     for target in package.targets() {
-        println!("\nSelf: {:?}", target.src_path());
-        inject_file(target.src_path())
+//        inject_file(target.src_path())
     }
+    let mut deps = package.dependencies().to_vec();
+    for dep in &deps {
+        println!("DEP {}", dep.name());
+    }
+//    for dep in &deps {
+//        println!("DEP {:#?}", dep);
+//    }
+
+    println!("\nOLD MANIFEST {:?}:\n{}",
+             package.manifest_path(), toml::to_string(package.manifest().original()).unwrap());
+    let new_package = clone_package_with_deps(package, deps);
+    let mut deps = package.dependencies().to_vec();
+    println!("\nNEW MANIFEST {:?}:\n{}",
+             new_package.manifest_path(), toml::to_string(new_package.manifest().original()).unwrap());
+//    println!("{}", package.to_registry_toml());
     //    for dependency in package.dependencies() {
     //        println!("\nExternal: {:#?}", dependency);
     //    }
@@ -30,6 +46,33 @@ fn main() {
     //            println!("Target: {:?}", target.src_path())
     //        }
     //    }
+}
+
+fn clone_package_with_deps(package: &Package, new_deps: Vec<Dependency>) -> Package {
+    let manifest = package.manifest();
+    let summary = manifest.summary();
+    let new_summary = Summary::new(
+        summary.package_id().clone(),
+        new_deps,
+        summary.features().clone()
+    ).unwrap();
+    let new_manifest = Manifest::new(
+        new_summary,
+        manifest.targets().to_vec(),
+        manifest.exclude().to_vec(),
+        manifest.include().to_vec(),
+        manifest.links().map(|s| s.to_string()),
+        manifest.metadata().clone(),
+        manifest.profiles().clone(),
+        manifest.publish(),
+        manifest.replace().to_vec(),
+        manifest.patch().clone(),
+        manifest.workspace_config().clone(),
+        manifest.features().clone(),
+        None,
+        Rc::new(manifest.original().prepare_for_publish()),
+    );
+    Package::new(new_manifest, package.manifest_path().clone())
 }
 
 fn inject_file(path: &Path) {
@@ -43,7 +86,7 @@ fn inject_file(path: &Path) {
     let out_file_content = inject_string(&in_file_content);
     file.seek(SeekFrom::Start(0)).unwrap();
     //    file.write(out_file_content.as_bytes()).unwrap();
-    println!("NEW_ONE:\n{}", out_file_content);
+    println!("\n{:?} AFTER INJECTION:\n{}", path, out_file_content);
 }
 
 fn inject_string(in_string: &str) -> String {
@@ -59,7 +102,7 @@ fn inject_crate(krate: &mut Crate) {
     let proc_macro_attr = syn::parse_inner_attr("#![feature(proc_macro)]").unwrap();
     krate.attrs.insert(0, proc_macro_attr);
 
-    // if defined anywhere, then don't insert
+    // if defined anywhere, then remove them
     let extern_crate_item = syn::parse_item("extern crate mocktopus;").unwrap();
     krate.items.insert(0, extern_crate_item);
 
@@ -69,9 +112,5 @@ fn inject_crate(krate: &mut Crate) {
         if let ItemKind::Mod(_) = item.node {
             item.attrs.push(mockable_attr.clone())
         }
-    }
-
-    for item in &krate.items {
-        println!("{:?}", item);
     }
 }
