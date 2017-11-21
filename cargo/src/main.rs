@@ -1,4 +1,5 @@
 extern crate cargo;
+extern crate cargo_edit;
 extern crate quote;
 extern crate syn;
 extern crate toml;
@@ -6,6 +7,7 @@ extern crate toml;
 use cargo::core::{Dependency, Manifest, Package, Summary, Workspace};
 use cargo::util::config::Config;
 use cargo::util::important_paths;
+use cargo_edit::{Dependency as DependencyEdit, Manifest as ManifestEdit};
 use quote::{Tokens, ToTokens};
 use std::fs::OpenOptions;
 use std::io::{Read, Seek, SeekFrom};
@@ -25,16 +27,35 @@ fn main() {
     for dep in &deps {
         println!("DEP {}", dep.name());
     }
+
+
+
 //    for dep in &deps {
 //        println!("DEP {:#?}", dep);
 //    }
 
-    println!("\nOLD MANIFEST {:?}:\n{}",
-             package.manifest_path(), toml::to_string(package.manifest().original()).unwrap());
-    let new_package = clone_package_with_deps(package, deps);
-    let mut deps = package.dependencies().to_vec();
-    println!("\nNEW MANIFEST {:?}:\n{}",
-             new_package.manifest_path(), toml::to_string(new_package.manifest().original()).unwrap());
+    let mut manifest_edit = ManifestEdit::open(&Some(package.manifest_path().to_path_buf())).unwrap();
+    let table_path = ["dependencies".to_string()];
+    let mocktopus_dep = DependencyEdit::new("mocktopus").set_version("=0.1.1");
+    manifest_edit.insert_into_table(&table_path, &mocktopus_dep).unwrap();
+    println!("NEW_MANIFEST:");
+    manifest_edit.write_to_file(&mut ::std::fs::File::create("modified.toml").unwrap());
+//    for (vec, map) in manifest_edit.get_sections() {
+//        println!("\nSECTION");
+//        for v in vec {
+//            println!("V {}", v);
+//        }
+//        for (k, v) in map {
+//            println!("K {}       V {}", k, v);
+//        }
+//    }
+
+//    println!("\nOLD MANIFEST {:?}:\n{}",
+//             package.manifest_path(), toml::to_string(package.manifest().original()).unwrap());
+//    let new_package = clone_package_with_deps(package, deps);
+//    let mut deps = package.dependencies().to_vec();
+//    println!("\nNEW MANIFEST {:?}:\n{}",
+//             new_package.manifest_path(), toml::to_string(new_package.manifest().original()).unwrap());
 //    println!("{}", package.to_registry_toml());
     //    for dependency in package.dependencies() {
     //        println!("\nExternal: {:#?}", dependency);
