@@ -9,8 +9,8 @@ use cargo::util::config::Config;
 use cargo::util::important_paths;
 use cargo_edit::{Dependency as DependencyEdit, Manifest as ManifestEdit};
 use quote::{Tokens, ToTokens};
-use std::fs::OpenOptions;
-use std::io::{Read, Seek, SeekFrom};
+use std::fs::File;
+use std::io::{Read, Seek, SeekFrom, Write};
 use std::path::Path;
 use std::rc::Rc;
 use syn::{Crate, ItemKind};
@@ -21,104 +21,42 @@ fn main() {
     let workspace = Workspace::new(&manifest_path, &config).unwrap();
     let package = workspace.current().unwrap();
     for target in package.targets() {
-//        inject_file(target.src_path())
+//        inject_crate_root(target.src_path())
     }
     let mut deps = package.dependencies().to_vec();
     for dep in &deps {
         println!("DEP {}", dep.name());
     }
 
+    inject_manifest(package.manifest_path(), "modified.toml");
+}
 
-
-//    for dep in &deps {
-//        println!("DEP {:#?}", dep);
-//    }
-
-    let mut manifest_edit = ManifestEdit::open(&Some(package.manifest_path().to_path_buf())).unwrap();
+fn inject_manifest<P: AsRef<Path>>(input_path: &Path, output_path: P) {
+    let mut manifest_edit = ManifestEdit::open(&Some(input_path.to_path_buf())).unwrap();
     let table_path = ["dependencies".to_string()];
     let mocktopus_dep = DependencyEdit::new("mocktopus").set_version("=0.1.1");
     manifest_edit.insert_into_table(&table_path, &mocktopus_dep).unwrap();
-    println!("NEW_MANIFEST:");
-    manifest_edit.write_to_file(&mut ::std::fs::File::create("modified.toml").unwrap());
-//    for (vec, map) in manifest_edit.get_sections() {
-//        println!("\nSECTION");
-//        for v in vec {
-//            println!("V {}", v);
-//        }
-//        for (k, v) in map {
-//            println!("K {}       V {}", k, v);
-//        }
-//    }
-
-//    println!("\nOLD MANIFEST {:?}:\n{}",
-//             package.manifest_path(), toml::to_string(package.manifest().original()).unwrap());
-//    let new_package = clone_package_with_deps(package, deps);
-//    let mut deps = package.dependencies().to_vec();
-//    println!("\nNEW MANIFEST {:?}:\n{}",
-//             new_package.manifest_path(), toml::to_string(new_package.manifest().original()).unwrap());
-//    println!("{}", package.to_registry_toml());
-    //    for dependency in package.dependencies() {
-    //        println!("\nExternal: {:#?}", dependency);
-    //    }
-    //    let packages_set = ops::fetch(&workspace).unwrap().1;
-    //    for package_id in packages_set.package_ids() {
-    //        println!("\nPackage: {:?} ", package_id.name());
-    //        for target in packages_set.get(package_id).unwrap().targets() {
-    //            println!("Target: {:?}", target.src_path())
-    //        }
-    //    }
+    manifest_edit.write_to_file(&mut ::std::fs::File::create(output_path).unwrap()).unwrap();
 }
 
-fn clone_package_with_deps(package: &Package, new_deps: Vec<Dependency>) -> Package {
-    let manifest = package.manifest();
-    let summary = manifest.summary();
-    let new_summary = Summary::new(
-        summary.package_id().clone(),
-        new_deps,
-        summary.features().clone()
-    ).unwrap();
-    let new_manifest = Manifest::new(
-        new_summary,
-        manifest.targets().to_vec(),
-        manifest.exclude().to_vec(),
-        manifest.include().to_vec(),
-        manifest.links().map(|s| s.to_string()),
-        manifest.metadata().clone(),
-        manifest.profiles().clone(),
-        manifest.publish(),
-        manifest.replace().to_vec(),
-        manifest.patch().clone(),
-        manifest.workspace_config().clone(),
-        manifest.features().clone(),
-        None,
-        Rc::new(manifest.original().prepare_for_publish()),
-    );
-    Package::new(new_manifest, package.manifest_path().clone())
+fn inject_crate_root<P: AsRef<Path>>(input_path: &Path, output_path: P) {
+    let mut input_file = File::open(input_path).unwrap();
+    let mut input_crate_string = String::new();
+    input_file.read_to_string(&mut input_crate_string).unwrap();
+    let output_crate_string = inject_crate_root_string(&input_crate_string);
+    let mut output_file = File::create(output_path).unwrap();
+    output_file.write_all(output_crate_string.as_bytes()).unwrap();
 }
 
-fn inject_file(path: &Path) {
-    let mut file = OpenOptions::new()
-        .read(true)
-        .write(true)
-        .open(path)
-        .unwrap();
-    let mut in_file_content = String::new();
-    file.read_to_string(&mut in_file_content).unwrap();
-    let out_file_content = inject_string(&in_file_content);
-    file.seek(SeekFrom::Start(0)).unwrap();
-    //    file.write(out_file_content.as_bytes()).unwrap();
-    println!("\n{:?} AFTER INJECTION:\n{}", path, out_file_content);
-}
-
-fn inject_string(in_string: &str) -> String {
+fn inject_crate_root_string(in_string: &str) -> String {
     let mut krate = syn::parse_crate(&in_string).unwrap();
-    inject_crate(&mut krate);
+    inject_crate_root_crate(&mut krate);
     let mut tokens = Tokens::new();
     krate.to_tokens(&mut tokens);
     tokens.into_string()
 }
 
-fn inject_crate(krate: &mut Crate) {
+fn inject_crate_root_crate(krate: &mut Crate) {
     // duplicates don't matter
     let proc_macro_attr = syn::parse_inner_attr("#![feature(proc_macro)]").unwrap();
     krate.attrs.insert(0, proc_macro_attr);
