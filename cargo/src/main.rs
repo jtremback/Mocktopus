@@ -5,6 +5,7 @@ extern crate syn;
 extern crate toml;
 
 use cargo::core::{Dependency, Manifest, Package, Summary, Workspace};
+use cargo::sources::PathSource;
 use cargo::util::config::Config;
 use cargo::util::important_paths;
 use cargo_edit::{Dependency as DependencyEdit, Manifest as ManifestEdit};
@@ -12,7 +13,6 @@ use quote::{Tokens, ToTokens};
 use std::fs::File;
 use std::io::{Read, Seek, SeekFrom, Write};
 use std::path::Path;
-use std::rc::Rc;
 use syn::{Crate, ItemKind};
 
 fn main() {
@@ -20,15 +20,25 @@ fn main() {
     let manifest_path = important_paths::find_project_manifest(config.cwd(), "Cargo.toml").unwrap();
     let workspace = Workspace::new(&manifest_path, &config).unwrap();
     let package = workspace.current().unwrap();
+    println!("SELF {}", package.name());
+    for member in workspace.members() {
+        println!("MEMBER {}", member.name())
+    }
     for target in package.targets() {
 //        inject_crate_root(target.src_path())
     }
-    let mut deps = package.dependencies().to_vec();
-    for dep in &deps {
-        println!("DEP {}", dep.name());
+
+
+    let config = workspace.config();
+    let mut path_source = PathSource::new(package.root(), package.package_id().source_id(), config);
+    let root = package.root();
+    println!("ROOT: {:?}", root);
+    for source_path in path_source.list_files(&package).unwrap() {
+        let target_path = root.join(".mocktopus").join(source_path.strip_prefix(root).unwrap());
+        println!("{:?} =>\n{:?}\n", source_path, target_path);
     }
 
-    inject_manifest(package.manifest_path(), "modified.toml");
+//    inject_manifest(package.manifest_path(), "modified.toml");
 }
 
 fn inject_manifest<P: AsRef<Path>>(input_path: &Path, output_path: P) {
