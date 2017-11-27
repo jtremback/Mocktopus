@@ -1,1 +1,3 @@
-const CONSTANT : u8 = 1 ; fn main ( ) { ( "Hello, world!" ) ; }
+fn main() {
+    println!("Hello, world!");
+}
