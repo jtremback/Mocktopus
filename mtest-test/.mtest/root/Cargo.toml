@@ -8,7 +8,7 @@ lazy_static = "0.2.0"
 mocktopus = "=0.1.1"
 
 [dependencies.code-sandwich-crates-io-release-test]
-path = "../../code-sandwich-crates-io-release-test"
+path = "../../../../code-sandwich-crates-io-release-test"
 
 [dependencies.rand]
 git = "https://github.com/rust-lang-nursery/rand.git"

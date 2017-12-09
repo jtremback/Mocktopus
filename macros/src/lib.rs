@@ -15,6 +15,7 @@ mod lifetime_remover;
 
 use proc_macro::TokenStream;
 use quote::{Tokens, ToTokens};
+use std::iter;
 use std::str::FromStr;
 
 /// Procedural macro, makes items and their sub-items mockable
@@ -197,5 +198,13 @@ pub fn mockable(_: TokenStream, token_stream: TokenStream) -> TokenStream {
 #[proc_macro_attribute]
 pub fn not_mockable(_: TokenStream, token_stream: TokenStream) -> TokenStream {
     token_stream
+}
+
+#[proc_macro_attribute]
+pub fn mocktopus_test(_: TokenStream, body: TokenStream) -> TokenStream {
+    let header = TokenStream::from_str("#[cfg(feature = \"mocktopus_test_run\")] #[test]").unwrap();
+    iter::once(header)
+        .chain(iter::once(body))
+        .collect()
 }
 

@@ -1,0 +1,882 @@
+{
+  "packages": [
+    {
+      "name": "quote",
+      "version": "0.3.15",
+      "id": "quote 0.3.15 (registry+https://github.com/rust-lang/crates.io-index)",
+      "license": "MIT/Apache-2.0",
+      "license_file": null,
+      "description": "Quasi-quoting macro quote!(...)",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "dependencies": [],
+      "targets": [
+        {
+          "kind": [
+            "lib"
+          ],
+          "crate_types": [
+            "lib"
+          ],
+          "name": "quote",
+          "src_path": "/home/zuczek/.cargo/registry/src/github.com-1ecc6299db9ec823/quote-0.3.15/src/lib.rs"
+        },
+        {
+          "kind": [
+            "test"
+          ],
+          "crate_types": [
+            "bin"
+          ],
+          "name": "test",
+          "src_path": "/home/zuczek/.cargo/registry/src/github.com-1ecc6299db9ec823/quote-0.3.15/tests/test.rs"
+        }
+      ],
+      "features": {},
+      "manifest_path": "/home/zuczek/.cargo/registry/src/github.com-1ecc6299db9ec823/quote-0.3.15/Cargo.toml"
+    },
+    {
+      "name": "lazy_static",
+      "version": "0.2.11",
+      "id": "lazy_static 0.2.11 (registry+https://github.com/rust-lang/crates.io-index)",
+      "license": "MIT/Apache-2.0",
+      "license_file": null,
+      "description": "A macro for declaring lazily evaluated statics in Rust.",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "dependencies": [
+        {
+          "name": "compiletest_rs",
+          "source": "registry+https://github.com/rust-lang/crates.io-index",
+          "req": "^0.3",
+          "kind": null,
+          "optional": true,
+          "uses_default_features": true,
+          "features": [],
+          "target": null
+        },
+        {
+          "name": "spin",
+          "source": "registry+https://github.com/rust-lang/crates.io-index",
+          "req": "^0.4.6",
+          "kind": null,
+          "optional": true,
+          "uses_default_features": true,
+          "features": [],
+          "target": null
+        }
+      ],
+      "targets": [
+        {
+          "kind": [
+            "lib"
+          ],
+          "crate_types": [
+            "lib"
+          ],
+          "name": "lazy_static",
+          "src_path": "/home/zuczek/.cargo/registry/src/github.com-1ecc6299db9ec823/lazy_static-0.2.11/src/lib.rs"
+        },
+        {
+          "kind": [
+            "test"
+          ],
+          "crate_types": [
+            "bin"
+          ],
+          "name": "no_std",
+          "src_path": "/home/zuczek/.cargo/registry/src/github.com-1ecc6299db9ec823/lazy_static-0.2.11/tests/no_std.rs"
+        },
+        {
+          "kind": [
+            "test"
+          ],
+          "crate_types": [
+            "bin"
+          ],
+          "name": "compile_tests",
+          "src_path": "/home/zuczek/.cargo/registry/src/github.com-1ecc6299db9ec823/lazy_static-0.2.11/tests/compile_tests.rs"
+        },
+        {
+          "kind": [
+            "test"
+          ],
+          "crate_types": [
+            "bin"
+          ],
+          "name": "test",
+          "src_path": "/home/zuczek/.cargo/registry/src/github.com-1ecc6299db9ec823/lazy_static-0.2.11/tests/test.rs"
+        }
+      ],
+      "features": {
+        "compiletest": [
+          "compiletest_rs"
+        ],
+        "nightly": [],
+        "spin_no_std": [
+          "nightly",
+          "spin"
+        ]
+      },
+      "manifest_path": "/home/zuczek/.cargo/registry/src/github.com-1ecc6299db9ec823/lazy_static-0.2.11/Cargo.toml"
+    },
+    {
+      "name": "syn",
+      "version": "0.11.11",
+      "id": "syn 0.11.11 (registry+https://github.com/rust-lang/crates.io-index)",
+      "license": "MIT/Apache-2.0",
+      "license_file": null,
+      "description": "Nom parser for Rust source code",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "dependencies": [
+        {
+          "name": "quote",
+          "source": "registry+https://github.com/rust-lang/crates.io-index",
+          "req": "^0.3.7",
+          "kind": null,
+          "optional": true,
+          "uses_default_features": true,
+          "features": [],
+          "target": null
+        },
+        {
+          "name": "synom",
+          "source": "registry+https://github.com/rust-lang/crates.io-index",
+          "req": "^0.11",
+          "kind": null,
+          "optional": true,
+          "uses_default_features": true,
+          "features": [],
+          "target": null
+        },
+        {
+          "name": "unicode-xid",
+          "source": "registry+https://github.com/rust-lang/crates.io-index",
+          "req": "^0.0.4",
+          "kind": null,
+          "optional": true,
+          "uses_default_features": true,
+          "features": [],
+          "target": null
+        },
+        {
+          "name": "tempdir",
+          "source": "registry+https://github.com/rust-lang/crates.io-index",
+          "req": "^0.3.5",
+          "kind": "dev",
+          "optional": false,
+          "uses_default_features": true,
+          "features": [],
+          "target": null
+        },
+        {
+          "name": "syntex_pos",
+          "source": "registry+https://github.com/rust-lang/crates.io-index",
+          "req": "^0.58",
+          "kind": "dev",
+          "optional": false,
+          "uses_default_features": true,
+          "features": [],
+          "target": null
+        },
+        {
+          "name": "walkdir",
+          "source": "registry+https://github.com/rust-lang/crates.io-index",
+          "req": "^1.0.1",
+          "kind": "dev",
+          "optional": false,
+          "uses_default_features": true,
+          "features": [],
+          "target": null
+        },
+        {
+          "name": "syntex_syntax",
+          "source": "registry+https://github.com/rust-lang/crates.io-index",
+          "req": "^0.58",
+          "kind": "dev",
+          "optional": false,
+          "uses_default_features": true,
+          "features": [],
+          "target": null
+        }
+      ],
+      "targets": [
+        {
+          "kind": [
+            "lib"
+          ],
+          "crate_types": [
+            "lib"
+          ],
+          "name": "syn",
+          "src_path": "/home/zuczek/.cargo/registry/src/github.com-1ecc6299db9ec823/syn-0.11.11/src/lib.rs"
+        }
+      ],
+      "features": {
+        "aster": [],
+        "default": [
+          "parsing",
+          "printing"
+        ],
+        "fold": [],
+        "full": [],
+        "parsing": [
+          "unicode-xid",
+          "synom"
+        ],
+        "printing": [
+          "quote"
+        ],
+        "visit": []
+      },
+      "manifest_path": "/home/zuczek/.cargo/registry/src/github.com-1ecc6299db9ec823/syn-0.11.11/Cargo.toml"
+    },
+    {
+      "name": "mocktopus",
+      "version": "0.1.1",
+      "id": "mocktopus 0.1.1 (registry+https://github.com/rust-lang/crates.io-index)",
+      "license": "MIT",
+      "license_file": null,
+      "description": "Mocking framework for Rust",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "dependencies": [
+        {
+          "name": "mocktopus_macros",
+          "source": "registry+https://github.com/rust-lang/crates.io-index",
+          "req": "^0.1.1",
+          "kind": null,
+          "optional": false,
+          "uses_default_features": true,
+          "features": [],
+          "target": null
+        }
+      ],
+      "targets": [
+        {
+          "kind": [
+            "lib"
+          ],
+          "crate_types": [
+            "lib"
+          ],
+          "name": "mocktopus",
+          "src_path": "/home/zuczek/.cargo/registry/src/github.com-1ecc6299db9ec823/mocktopus-0.1.1/src/lib.rs"
+        },
+        {
+          "kind": [
+            "test"
+          ],
+          "crate_types": [
+            "bin"
+          ],
+          "name": "mocking",
+          "src_path": "/home/zuczek/.cargo/registry/src/github.com-1ecc6299db9ec823/mocktopus-0.1.1/tests/mocking.rs"
+        },
+        {
+          "kind": [
+            "test"
+          ],
+          "crate_types": [
+            "bin"
+          ],
+          "name": "injecting",
+          "src_path": "/home/zuczek/.cargo/registry/src/github.com-1ecc6299db9ec823/mocktopus-0.1.1/tests/injecting.rs"
+        }
+      ],
+      "features": {},
+      "manifest_path": "/home/zuczek/.cargo/registry/src/github.com-1ecc6299db9ec823/mocktopus-0.1.1/Cargo.toml"
+    },
+    {
+      "name": "code-sandwich-crates-io-release-test-macros",
+      "version": "0.1.1",
+      "id": "code-sandwich-crates-io-release-test-macros 0.1.1 (registry+https://github.com/rust-lang/crates.io-index)",
+      "license": "MIT",
+      "license_file": null,
+      "description": "inner crate test releaase",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "dependencies": [
+        {
+          "name": "syn",
+          "source": "registry+https://github.com/rust-lang/crates.io-index",
+          "req": "^0.11.11",
+          "kind": null,
+          "optional": false,
+          "uses_default_features": true,
+          "features": [
+            "full"
+          ],
+          "target": null
+        },
+        {
+          "name": "quote",
+          "source": "registry+https://github.com/rust-lang/crates.io-index",
+          "req": "^0.3.15",
+          "kind": null,
+          "optional": false,
+          "uses_default_features": true,
+          "features": [],
+          "target": null
+        }
+      ],
+      "targets": [
+        {
+          "kind": [
+            "proc-macro"
+          ],
+          "crate_types": [
+            "proc-macro"
+          ],
+          "name": "code-sandwich-crates-io-release-test-macros",
+          "src_path": "/home/zuczek/.cargo/registry/src/github.com-1ecc6299db9ec823/code-sandwich-crates-io-release-test-macros-0.1.1/src/lib.rs"
+        }
+      ],
+      "features": {},
+      "manifest_path": "/home/zuczek/.cargo/registry/src/github.com-1ecc6299db9ec823/code-sandwich-crates-io-release-test-macros-0.1.1/Cargo.toml"
+    },
+    {
+      "name": "code-sandwich-crates-io-release-test",
+      "version": "0.1.4",
+      "id": "code-sandwich-crates-io-release-test 0.1.4 (path+file:///home/zuczek/Pulpit/code-sandwich-crates-io-release-test)",
+      "license": "MIT",
+      "license_file": null,
+      "description": "outer crate test releaase",
+      "source": null,
+      "dependencies": [
+        {
+          "name": "code-sandwich-crates-io-release-test-macros",
+          "source": "registry+https://github.com/rust-lang/crates.io-index",
+          "req": "^0.1.1",
+          "kind": null,
+          "optional": false,
+          "uses_default_features": true,
+          "features": [],
+          "target": null
+        }
+      ],
+      "targets": [
+        {
+          "kind": [
+            "lib"
+          ],
+          "crate_types": [
+            "lib"
+          ],
+          "name": "code-sandwich-crates-io-release-test",
+          "src_path": "/home/zuczek/Pulpit/code-sandwich-crates-io-release-test/src/lib.rs"
+        }
+      ],
+      "features": {},
+      "manifest_path": "/home/zuczek/Pulpit/code-sandwich-crates-io-release-test/Cargo.toml"
+    },
+    {
+      "name": "rand",
+      "version": "0.3.18",
+      "id": "rand 0.3.18 (git+https://github.com/rust-lang-nursery/rand.git#48e4e6f33f42f6c3582980f8d294afc487a905f2)",
+      "license": "MIT/Apache-2.0",
+      "license_file": null,
+      "description": "Random number generators and other randomness functionality.\n",
+      "source": "git+https://github.com/rust-lang-nursery/rand.git#48e4e6f33f42f6c3582980f8d294afc487a905f2",
+      "dependencies": [
+        {
+          "name": "libc",
+          "source": "registry+https://github.com/rust-lang/crates.io-index",
+          "req": "^0.2",
+          "kind": null,
+          "optional": false,
+          "uses_default_features": true,
+          "features": [],
+          "target": null
+        },
+        {
+          "name": "log",
+          "source": "registry+https://github.com/rust-lang/crates.io-index",
+          "req": "^0.3.0",
+          "kind": "dev",
+          "optional": false,
+          "uses_default_features": true,
+          "features": [],
+          "target": null
+        },
+        {
+          "name": "fuchsia-zircon",
+          "source": "registry+https://github.com/rust-lang/crates.io-index",
+          "req": "^0.3",
+          "kind": null,
+          "optional": false,
+          "uses_default_features": true,
+          "features": [],
+          "target": "cfg(target_os = \"fuchsia\")"
+        }
+      ],
+      "targets": [
+        {
+          "kind": [
+            "lib"
+          ],
+          "crate_types": [
+            "lib"
+          ],
+          "name": "rand",
+          "src_path": "/home/zuczek/.cargo/git/checkouts/rand-02690058d91f0548/48e4e6f/src/lib.rs"
+        },
+        {
+          "kind": [
+            "bench"
+          ],
+          "crate_types": [
+            "bin"
+          ],
+          "name": "bench",
+          "src_path": "/home/zuczek/.cargo/git/checkouts/rand-02690058d91f0548/48e4e6f/benches/bench.rs"
+        }
+      ],
+      "features": {
+        "i128_support": [],
+        "nightly": [
+          "i128_support"
+        ]
+      },
+      "manifest_path": "/home/zuczek/.cargo/git/checkouts/rand-02690058d91f0548/48e4e6f/Cargo.toml"
+    },
+    {
+      "name": "synom",
+      "version": "0.11.3",
+      "id": "synom 0.11.3 (registry+https://github.com/rust-lang/crates.io-index)",
+      "license": "MIT/Apache-2.0",
+      "license_file": null,
+      "description": "Stripped-down Nom parser used by Syn",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "dependencies": [
+        {
+          "name": "unicode-xid",
+          "source": "registry+https://github.com/rust-lang/crates.io-index",
+          "req": "^0.0.4",
+          "kind": null,
+          "optional": false,
+          "uses_default_features": true,
+          "features": [],
+          "target": null
+        },
+        {
+          "name": "syn",
+          "source": "registry+https://github.com/rust-lang/crates.io-index",
+          "req": "^0.11",
+          "kind": "dev",
+          "optional": false,
+          "uses_default_features": false,
+          "features": [
+            "parsing",
+            "full"
+          ],
+          "target": null
+        }
+      ],
+      "targets": [
+        {
+          "kind": [
+            "lib"
+          ],
+          "crate_types": [
+            "lib"
+          ],
+          "name": "synom",
+          "src_path": "/home/zuczek/.cargo/registry/src/github.com-1ecc6299db9ec823/synom-0.11.3/src/lib.rs"
+        }
+      ],
+      "features": {},
+      "manifest_path": "/home/zuczek/.cargo/registry/src/github.com-1ecc6299db9ec823/synom-0.11.3/Cargo.toml"
+    },
+    {
+      "name": "unicode-xid",
+      "version": "0.0.4",
+      "id": "unicode-xid 0.0.4 (registry+https://github.com/rust-lang/crates.io-index)",
+      "license": "MIT/Apache-2.0",
+      "license_file": null,
+      "description": "Determine whether characters have the XID_Start\nor XID_Continue properties according to\nUnicode Standard Annex #31.\n",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "dependencies": [],
+      "targets": [
+        {
+          "kind": [
+            "lib"
+          ],
+          "crate_types": [
+            "lib"
+          ],
+          "name": "unicode-xid",
+          "src_path": "/home/zuczek/.cargo/registry/src/github.com-1ecc6299db9ec823/unicode-xid-0.0.4/src/lib.rs"
+        }
+      ],
+      "features": {
+        "bench": [],
+        "default": [],
+        "no_std": []
+      },
+      "manifest_path": "/home/zuczek/.cargo/registry/src/github.com-1ecc6299db9ec823/unicode-xid-0.0.4/Cargo.toml"
+    },
+    {
+      "name": "fuchsia-zircon-sys",
+      "version": "0.3.2",
+      "id": "fuchsia-zircon-sys 0.3.2 (registry+https://github.com/rust-lang/crates.io-index)",
+      "license": "BSD-3-Clause",
+      "license_file": null,
+      "description": "Low-level Rust bindings for the Zircon kernel",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "dependencies": [],
+      "targets": [
+        {
+          "kind": [
+            "lib"
+          ],
+          "crate_types": [
+            "lib"
+          ],
+          "name": "fuchsia-zircon-sys",
+          "src_path": "/home/zuczek/.cargo/registry/src/github.com-1ecc6299db9ec823/fuchsia-zircon-sys-0.3.2/src/lib.rs"
+        },
+        {
+          "kind": [
+            "example"
+          ],
+          "crate_types": [
+            "bin"
+          ],
+          "name": "hello",
+          "src_path": "/home/zuczek/.cargo/registry/src/github.com-1ecc6299db9ec823/fuchsia-zircon-sys-0.3.2/examples/hello.rs"
+        }
+      ],
+      "features": {},
+      "manifest_path": "/home/zuczek/.cargo/registry/src/github.com-1ecc6299db9ec823/fuchsia-zircon-sys-0.3.2/Cargo.toml"
+    },
+    {
+      "name": "bitflags",
+      "version": "1.0.1",
+      "id": "bitflags 1.0.1 (registry+https://github.com/rust-lang/crates.io-index)",
+      "license": "MIT/Apache-2.0",
+      "license_file": null,
+      "description": "A macro to generate structures which behave like bitflags.\n",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "dependencies": [],
+      "targets": [
+        {
+          "kind": [
+            "lib"
+          ],
+          "crate_types": [
+            "lib"
+          ],
+          "name": "bitflags",
+          "src_path": "/home/zuczek/.cargo/registry/src/github.com-1ecc6299db9ec823/bitflags-1.0.1/src/lib.rs"
+        }
+      ],
+      "features": {
+        "default": [
+          "example_generated"
+        ],
+        "example_generated": []
+      },
+      "manifest_path": "/home/zuczek/.cargo/registry/src/github.com-1ecc6299db9ec823/bitflags-1.0.1/Cargo.toml"
+    },
+    {
+      "name": "MTestTest",
+      "version": "0.1.0",
+      "id": "MTestTest 0.1.0 (path+file:///home/zuczek/Pulpit/Mocktopus/mtest-test/.mtest/root)",
+      "license": null,
+      "license_file": null,
+      "description": null,
+      "source": null,
+      "dependencies": [
+        {
+          "name": "code-sandwich-crates-io-release-test",
+          "source": null,
+          "req": "*",
+          "kind": null,
+          "optional": false,
+          "uses_default_features": true,
+          "features": [],
+          "target": null
+        },
+        {
+          "name": "lazy_static",
+          "source": "registry+https://github.com/rust-lang/crates.io-index",
+          "req": "^0.2.0",
+          "kind": null,
+          "optional": false,
+          "uses_default_features": true,
+          "features": [],
+          "target": null
+        },
+        {
+          "name": "mocktopus",
+          "source": "registry+https://github.com/rust-lang/crates.io-index",
+          "req": "= 0.1.1",
+          "kind": null,
+          "optional": false,
+          "uses_default_features": true,
+          "features": [],
+          "target": null
+        },
+        {
+          "name": "rand",
+          "source": "git+https://github.com/rust-lang-nursery/rand.git",
+          "req": "*",
+          "kind": null,
+          "optional": false,
+          "uses_default_features": true,
+          "features": [],
+          "target": null
+        },
+        {
+          "name": "lazy_static",
+          "source": "registry+https://github.com/rust-lang/crates.io-index",
+          "req": "*",
+          "kind": "dev",
+          "optional": false,
+          "uses_default_features": true,
+          "features": [],
+          "target": null
+        }
+      ],
+      "targets": [
+        {
+          "kind": [
+            "lib"
+          ],
+          "crate_types": [
+            "lib"
+          ],
+          "name": "MTestTest",
+          "src_path": "/home/zuczek/Pulpit/Mocktopus/mtest-test/.mtest/root/src/lib.rs"
+        },
+        {
+          "kind": [
+            "bin"
+          ],
+          "crate_types": [
+            "bin"
+          ],
+          "name": "MTestTest",
+          "src_path": "/home/zuczek/Pulpit/Mocktopus/mtest-test/.mtest/root/src/main.rs"
+        }
+      ],
+      "features": {},
+      "manifest_path": "/home/zuczek/Pulpit/Mocktopus/mtest-test/.mtest/root/Cargo.toml"
+    },
+    {
+      "name": "fuchsia-zircon",
+      "version": "0.3.2",
+      "id": "fuchsia-zircon 0.3.2 (registry+https://github.com/rust-lang/crates.io-index)",
+      "license": "BSD-3-Clause",
+      "license_file": null,
+      "description": "Rust bindings for the Zircon kernel",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "dependencies": [
+        {
+          "name": "bitflags",
+          "source": "registry+https://github.com/rust-lang/crates.io-index",
+          "req": "^1.0.0",
+          "kind": null,
+          "optional": false,
+          "uses_default_features": true,
+          "features": [],
+          "target": null
+        },
+        {
+          "name": "fuchsia-zircon-sys",
+          "source": "registry+https://github.com/rust-lang/crates.io-index",
+          "req": "^0.3.2",
+          "kind": null,
+          "optional": false,
+          "uses_default_features": true,
+          "features": [],
+          "target": null
+        }
+      ],
+      "targets": [
+        {
+          "kind": [
+            "lib"
+          ],
+          "crate_types": [
+            "lib"
+          ],
+          "name": "fuchsia-zircon",
+          "src_path": "/home/zuczek/.cargo/registry/src/github.com-1ecc6299db9ec823/fuchsia-zircon-0.3.2/src/lib.rs"
+        }
+      ],
+      "features": {},
+      "manifest_path": "/home/zuczek/.cargo/registry/src/github.com-1ecc6299db9ec823/fuchsia-zircon-0.3.2/Cargo.toml"
+    },
+    {
+      "name": "libc",
+      "version": "0.2.34",
+      "id": "libc 0.2.34 (registry+https://github.com/rust-lang/crates.io-index)",
+      "license": "MIT/Apache-2.0",
+      "license_file": null,
+      "description": "A library for types and bindings to native C functions often found in libc or\nother common platform libraries.\n",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "dependencies": [],
+      "targets": [
+        {
+          "kind": [
+            "lib"
+          ],
+          "crate_types": [
+            "lib"
+          ],
+          "name": "libc",
+          "src_path": "/home/zuczek/.cargo/registry/src/github.com-1ecc6299db9ec823/libc-0.2.34/src/lib.rs"
+        }
+      ],
+      "features": {
+        "default": [
+          "use_std"
+        ],
+        "use_std": []
+      },
+      "manifest_path": "/home/zuczek/.cargo/registry/src/github.com-1ecc6299db9ec823/libc-0.2.34/Cargo.toml"
+    },
+    {
+      "name": "mocktopus_macros",
+      "version": "0.1.1",
+      "id": "mocktopus_macros 0.1.1 (registry+https://github.com/rust-lang/crates.io-index)",
+      "license": "MIT",
+      "license_file": null,
+      "description": "Mocktopus procedural macros",
+      "source": "registry+https://github.com/rust-lang/crates.io-index",
+      "dependencies": [
+        {
+          "name": "syn",
+          "source": "registry+https://github.com/rust-lang/crates.io-index",
+          "req": "^0.11.11",
+          "kind": null,
+          "optional": false,
+          "uses_default_features": true,
+          "features": [
+            "full"
+          ],
+          "target": null
+        },
+        {
+          "name": "quote",
+          "source": "registry+https://github.com/rust-lang/crates.io-index",
+          "req": "^0.3.15",
+          "kind": null,
+          "optional": false,
+          "uses_default_features": true,
+          "features": [],
+          "target": null
+        }
+      ],
+      "targets": [
+        {
+          "kind": [
+            "proc-macro"
+          ],
+          "crate_types": [
+            "proc-macro"
+          ],
+          "name": "mocktopus_macros",
+          "src_path": "/home/zuczek/.cargo/registry/src/github.com-1ecc6299db9ec823/mocktopus_macros-0.1.1/src/lib.rs"
+        }
+      ],
+      "features": {},
+      "manifest_path": "/home/zuczek/.cargo/registry/src/github.com-1ecc6299db9ec823/mocktopus_macros-0.1.1/Cargo.toml"
+    }
+  ],
+  "workspace_members": [
+    "MTestTest 0.1.0 (path+file:///home/zuczek/Pulpit/Mocktopus/mtest-test/.mtest/root)"
+  ],
+  "resolve": {
+    "nodes": [
+      {
+        "id": "syn 0.11.11 (registry+https://github.com/rust-lang/crates.io-index)",
+        "dependencies": [
+          "unicode-xid 0.0.4 (registry+https://github.com/rust-lang/crates.io-index)",
+          "synom 0.11.3 (registry+https://github.com/rust-lang/crates.io-index)",
+          "quote 0.3.15 (registry+https://github.com/rust-lang/crates.io-index)"
+        ]
+      },
+      {
+        "id": "unicode-xid 0.0.4 (registry+https://github.com/rust-lang/crates.io-index)",
+        "dependencies": []
+      },
+      {
+        "id": "quote 0.3.15 (registry+https://github.com/rust-lang/crates.io-index)",
+        "dependencies": []
+      },
+      {
+        "id": "fuchsia-zircon-sys 0.3.2 (registry+https://github.com/rust-lang/crates.io-index)",
+        "dependencies": []
+      },
+      {
+        "id": "fuchsia-zircon 0.3.2 (registry+https://github.com/rust-lang/crates.io-index)",
+        "dependencies": [
+          "bitflags 1.0.1 (registry+https://github.com/rust-lang/crates.io-index)",
+          "fuchsia-zircon-sys 0.3.2 (registry+https://github.com/rust-lang/crates.io-index)"
+        ]
+      },
+      {
+        "id": "code-sandwich-crates-io-release-test 0.1.4 (path+file:///home/zuczek/Pulpit/code-sandwich-crates-io-release-test)",
+        "dependencies": [
+          "code-sandwich-crates-io-release-test-macros 0.1.1 (registry+https://github.com/rust-lang/crates.io-index)"
+        ]
+      },
+      {
+        "id": "libc 0.2.34 (registry+https://github.com/rust-lang/crates.io-index)",
+        "dependencies": []
+      },
+      {
+        "id": "bitflags 1.0.1 (registry+https://github.com/rust-lang/crates.io-index)",
+        "dependencies": []
+      },
+      {
+        "id": "synom 0.11.3 (registry+https://github.com/rust-lang/crates.io-index)",
+        "dependencies": [
+          "unicode-xid 0.0.4 (registry+https://github.com/rust-lang/crates.io-index)"
+        ]
+      },
+      {
+        "id": "rand 0.3.18 (git+https://github.com/rust-lang-nursery/rand.git#48e4e6f33f42f6c3582980f8d294afc487a905f2)",
+        "dependencies": [
+          "fuchsia-zircon 0.3.2 (registry+https://github.com/rust-lang/crates.io-index)",
+          "libc 0.2.34 (registry+https://github.com/rust-lang/crates.io-index)"
+        ]
+      },
+      {
+        "id": "lazy_static 0.2.11 (registry+https://github.com/rust-lang/crates.io-index)",
+        "dependencies": []
+      },
+      {
+        "id": "mocktopus_macros 0.1.1 (registry+https://github.com/rust-lang/crates.io-index)",
+        "dependencies": [
+          "quote 0.3.15 (registry+https://github.com/rust-lang/crates.io-index)",
+          "syn 0.11.11 (registry+https://github.com/rust-lang/crates.io-index)"
+        ]
+      },
+      {
+        "id": "mocktopus 0.1.1 (registry+https://github.com/rust-lang/crates.io-index)",
+        "dependencies": [
+          "mocktopus_macros 0.1.1 (registry+https://github.com/rust-lang/crates.io-index)"
+        ]
+      },
+      {
+        "id": "MTestTest 0.1.0 (path+file:///home/zuczek/Pulpit/Mocktopus/mtest-test/.mtest/root)",
+        "dependencies": [
+          "mocktopus 0.1.1 (registry+https://github.com/rust-lang/crates.io-index)",
+          "rand 0.3.18 (git+https://github.com/rust-lang-nursery/rand.git#48e4e6f33f42f6c3582980f8d294afc487a905f2)",
+          "lazy_static 0.2.11 (registry+https://github.com/rust-lang/crates.io-index)",
+          "code-sandwich-crates-io-release-test 0.1.4 (path+file:///home/zuczek/Pulpit/code-sandwich-crates-io-release-test)"
+        ]
+      },
+      {
+        "id": "code-sandwich-crates-io-release-test-macros 0.1.1 (registry+https://github.com/rust-lang/crates.io-index)",
+        "dependencies": [
+          "quote 0.3.15 (registry+https://github.com/rust-lang/crates.io-index)",
+          "syn 0.11.11 (registry+https://github.com/rust-lang/crates.io-index)"
+        ]
+      }
+    ],
+    "root": "MTestTest 0.1.0 (path+file:///home/zuczek/Pulpit/Mocktopus/mtest-test/.mtest/root)"
+  },
+  "target_directory": "/home/zuczek/Pulpit/Mocktopus/mtest-test/.mtest/target",
+  "version": 1
+}
