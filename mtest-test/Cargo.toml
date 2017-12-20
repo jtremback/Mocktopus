@@ -10,6 +10,3 @@ code-sandwich-crates-io-release-test = { path = "../../code-sandwich-crates-io-r
 
 [dev-dependencies]
 mocktopus = { path = ".."}
-
-[features]
-mocktopus_test_run = []
