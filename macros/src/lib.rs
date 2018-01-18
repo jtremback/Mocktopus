@@ -5,7 +5,9 @@
 #![feature(conservative_impl_trait, proc_macro)]
 
 extern crate proc_macro;
+extern crate proc_macro2;
 extern crate syn;
+#[macro_use]
 extern crate quote;
 
 mod display_delegate;

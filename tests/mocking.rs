@@ -44,7 +44,7 @@ mod mocks_do_not_leak_between_tests {
     }
 
     macro_rules! generate_tests {
-        ($($fn_name:ident),+) => {
+        ($($fn_name:ident),*) => {
             $(
                 #[test]
                 fn $fn_name() {
@@ -56,7 +56,7 @@ mod mocks_do_not_leak_between_tests {
 
                     assert_eq!(stringify!($fn_name), no_args_returns_str(), "mocking failed");
                 }
-            )+
+            )*
         }
     }
 

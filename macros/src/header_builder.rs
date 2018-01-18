@@ -1,13 +1,19 @@
 use display_delegate::display;
 use lifetime_remover::remove_lifetimes_from_path;
-use quote::{ToTokens};
+use proc_macro2::Span;
+use quote::{Tokens, ToTokens};
 use std::fmt::{Error, Formatter};
+use std::iter;
 use syn::{self, ArgCaptured, FnArg, Ident, Pat, PatIdent, PathSegment, Stmt};
 use syn::punctuated::Punctuated;
 use syn::token::{Comma, Colon2};
 
 const ARGS_REPLACEMENT_TUPLE_NAME: &str  = "__mocktopus_args_replacement_tuple__";
 const MOCKTOPUS_EXTERN_CRATE_NAME: &str = "__mocktopus_extern_crate_inside_header__";
+
+macro_rules! quote_call_site {
+    ($($tt:tt)*) => (quote_spanned!(Span::call_site()=> $($tt)*));
+}
 
 macro_rules! error_msg {
     ($msg:expr) => { concat!("Mocktopus internal error: ", $msg) }
@@ -68,34 +74,54 @@ fn write_args_tuple<T>(f: &mut Formatter, fn_args: &Punctuated<FnArg, T>) -> Res
     write!(f, "unsafe {{ (")?;
     for fn_arg_name in iter_fn_arg_names(fn_args) {
         write!(f, "::std::mem::replace({}::mocking_utils::as_mut(&{}), ::std::mem::uninitialized()), ",
-               MOCKTOPUS_EXTERN_CRATE_NAME, fn_arg_name)?;
+               MOCKTOPUS_EXTERN_CRATE_NAME, fn_arg_name.to_string())?;
     }
     write!(f, ") }}")
 }
 
 fn write_args_replacement<T>(f: &mut Formatter, fn_args: &Punctuated<FnArg, T>) -> Result<(), Error> {
     if fn_args.is_empty() {
-        return writeln!(f, "()");
+        return writeln!(f, "{}", quote_call_site!(()));
     }
-    writeln!(f, "unsafe {{")?;
-    for (fn_arg_index, fn_arg_name) in iter_fn_arg_names(fn_args).enumerate() {
-        writeln!(f, "::std::mem::replace({}::mocking_utils::as_mut(&{}), {}.{});",
-                 MOCKTOPUS_EXTERN_CRATE_NAME, fn_arg_name, ARGS_REPLACEMENT_TUPLE_NAME, fn_arg_index)?;
-    }
-    writeln!(f, "}}")
+    let mocktopus_extern_crate_name = iter::repeat(mocktopus_extern_crate_name());
+    let fn_arg_names = iter_fn_arg_names(fn_args);
+    let args_replacement_tuple_name = iter::repeat(args_replacement_tuple_name());
+    let fn_arg_indexes = 0..;
+    let result = quote_call_site!(
+        unsafe {
+            #(
+                ::std::mem::replace(
+                    #mocktopus_extern_crate_name::mocking_utils::as_mut(#fn_arg_names),
+                    #args_replacement_tuple_name.#fn_arg_indexes);
+            )*
+        }
+    );
+    println!("{}\n\n", result);
+    writeln!(f, "{}", result)
+
+
+//    writeln!(f, "unsafe {{")?;
+//    for (fn_arg_index, fn_arg_name) in iter_fn_arg_names(fn_args).enumerate() {
+//        writeln!(f, "::std::mem::replace({}::mocking_utils::as_mut(&{}), {}.{});",
+//                 MOCKTOPUS_EXTERN_CRATE_NAME, fn_arg_name.to_string(), ARGS_REPLACEMENT_TUPLE_NAME, fn_arg_index)?;
+//    }
+//    writeln!(f, "}}")
 }
 
 fn write_args_forget<T>(f: &mut Formatter, fn_args: &Punctuated<FnArg, T>) -> Result<(), Error> {
-    for fn_arg_name in iter_fn_arg_names(fn_args) {
-        writeln!(f, "::std::mem::forget({});", fn_arg_name)?;
-    }
-    Ok(())
+    let fn_arg_names_iter = iter_fn_arg_names(fn_args);
+    let result = quote_call_site!(
+        #(
+            ::std::mem::forget(#fn_arg_names_iter);
+        )*
+    );
+    writeln!(f, "{}", result)
 }
 
-pub fn iter_fn_arg_names<'a, T>(input_args: &'a Punctuated<FnArg, T>) -> impl Iterator<Item = &'a str> {
+pub fn iter_fn_arg_names<'a, T>(input_args: &'a Punctuated<FnArg, T>) -> impl Iterator<Item = Tokens> + 'a {
     input_args.iter()
         .map(|fn_arg| match *fn_arg {
-            FnArg::SelfRef(_) | FnArg::SelfValue(_) => "self",
+            FnArg::SelfRef(_) | FnArg::SelfValue(_) => quote_call_site!(self),
             FnArg::Captured(
                 ArgCaptured {
                     pat: Pat::Ident(
@@ -107,7 +133,15 @@ pub fn iter_fn_arg_names<'a, T>(input_args: &'a Punctuated<FnArg, T>) -> impl It
                     ),
                     ..
                 }
-            ) => ident.as_ref(),
+            ) => quote_call_site!(#ident),
             _ => panic!("{}: '{}'", error_msg!("invalid fn arg type"), fn_arg.clone().into_tokens()),
         })
+}
+
+fn args_replacement_tuple_name() -> Tokens {
+    quote_call_site!(__mocktopus_args_replacement_tuple__)
+}
+
+fn mocktopus_extern_crate_name() -> Tokens {
+    quote_call_site!(__mocktopus_extern_crate_inside_header__)
 }
