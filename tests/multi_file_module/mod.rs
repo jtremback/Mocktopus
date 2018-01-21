@@ -1,3 +1,6 @@
-pub fn function() -> &'static str {
-    "not mocked"
-}
+use mocktopus_aliased::macros::*;
+
+#[mockable]
+mod another;
+
+pub use self::another::function;

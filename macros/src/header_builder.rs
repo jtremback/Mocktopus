@@ -1,10 +1,12 @@
 use display_delegate::display;
 use lifetime_remover::remove_lifetimes_from_path;
+use proc_macro2::{Span, TokenNode, TokenStream, TokenTree};
 use quote::{ToTokens};
 use std::fmt::{Error, Formatter};
-use syn::{self, ArgCaptured, FnArg, Ident, Pat, PatIdent, PathSegment, Stmt};
+use std::mem;
+use syn::{self, ArgCaptured, Block, Expr, ExprVerbatim, FnArg, Ident, Pat, PatIdent, PathSegment, Stmt};
 use syn::punctuated::Punctuated;
-use syn::token::{Comma, Colon2};
+use syn::token::{Comma, Colon2, Semi};
 
 const ARGS_REPLACEMENT_TUPLE_NAME: &str  = "__mocktopus_args_replacement_tuple__";
 const MOCKTOPUS_EXTERN_CRATE_NAME: &str = "__mocktopus_extern_crate_inside_header__";
@@ -21,7 +23,7 @@ pub enum FnHeaderBuilder<'a> {
 }
 
 impl<'a> FnHeaderBuilder<'a> {
-    pub fn build(&self, fn_ident: &Ident, fn_args: &Punctuated<FnArg, Comma>) -> Stmt {
+    pub fn build(&self, fn_ident: &Ident, fn_args: &Punctuated<FnArg, Comma>, fn_block_span: Span) -> Stmt {
         let header_str = format!(
 r#"{{
     extern crate mocktopus as {mocktopus_crate};
@@ -33,7 +35,7 @@ r#"{{
             {args_forget}
             ::std::panic::resume_unwind(unwind);
         }}
-    }}
+    }};
 }}"#,
             mocktopus_crate         = MOCKTOPUS_EXTERN_CRATE_NAME,
             full_fn_name            = display(|f| write_full_fn_name(f, self, fn_ident)),
@@ -41,8 +43,33 @@ r#"{{
             args_replacement_tuple  = ARGS_REPLACEMENT_TUPLE_NAME,
             args_replacement        = display(|f| write_args_replacement(f, fn_args)),
             args_forget             = display(|f| write_args_forget(f, fn_args)));
-        syn::parse_str(&header_str).expect(error_msg!("generated header unparsable"))
+        let header_token_stream = syn::parse_str::<Block>(&header_str)
+            .expect(error_msg!("generated header unparsable"))
+            .into_tokens()
+            .into_iter()
+            .map(|tt| make_token_tree_span_call_site(tt, fn_block_span))
+            .collect();
+
+        Stmt::Semi(
+            Expr::Verbatim(
+                ExprVerbatim {
+                    tts: header_token_stream,
+                }
+            ),
+            Semi([fn_block_span])
+        )
     }
+}
+
+fn make_token_tree_span_call_site(mut token_tree: TokenTree, fn_block_span: Span) -> TokenTree {
+    token_tree.span = fn_block_span;
+    if let TokenNode::Group(_, ref mut token_stream) = token_tree.kind {
+        *token_stream = mem::replace(token_stream, TokenStream::empty())
+            .into_iter()
+            .map(|tt| make_token_tree_span_call_site(tt, fn_block_span))
+            .collect();
+    }
+    token_tree
 }
 
 fn write_full_fn_name(f: &mut Formatter, builder: &FnHeaderBuilder, fn_ident: &Ident) -> Result<(), Error> {
